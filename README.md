@@ -15,6 +15,58 @@ You can find the list of supported games in [jtbin/game_list](https://github.com
 
 The compiled versions for some FPGA platforms are in [JTBIN](https://github.com/jotego/jtbin). Most cores are released early for [patrons](https://patreon.com/jotego) so check it out too. [JTFRAME](modules/jtframe/README.md) supports more FPGA platforms than the ones publised in JTBIN. You are welcome to compile the cores for the other platforms. Distribution of the core binary files together with copyrighted ROM files is not permitted.
 
+## Circus Charlie – 15.625 kHz CRT Variant (Experimental)
+
+This fork includes an experimental clock modification for
+Circus Charlie, intended for original 15 kHz arcade CRT monitors.
+
+The original FPGA implementation runs with a nominal
+6.144 MHz pixel clock, producing approximately:
+
+- Horizontal frequency: 16.000 kHz
+- Vertical frequency: 60.606 Hz
+
+The modified configuration selects the existing JTFRAME
+6.000 MHz PLL, resulting in approximately:
+
+- Horizontal frequency: 15.625 kHz
+- Vertical frequency: 59.186 Hz
+
+The goal is to improve compatibility with older arcade
+monitors, including the Hantarex MTC 9000, without changing
+the monitor's original adjustments.
+
+### Implementation
+
+File: `cores/circus/cfg/macros.def`
+
+    JTFRAME_PLL=jtframe_pll6000
+    JTFRAME_RATE=59.19
+
+This changes the FPGA clock configuration rather than
+resampling the video through MiSTer's scaler.
+
+### Compatibility and limitations
+
+- Experimental; hardware validation is pending.
+- CPU and audio timing may also be affected.
+- Gameplay runs approximately 2.34% slower where timing
+  derives proportionally from the modified clock.
+- The original Jotego core remains available separately.
+- Compatible Circus Charlie ROM dumps are required.
+
+### Credits
+
+Original Circus Charlie FPGA implementation:
+Jose Tejada (Jotego)
+
+https://github.com/jotego/jtcores
+
+15.625 kHz adaptation: nickwinger
+
+This modification is not an official Jotego release.
+Please support the original project.
+
 # Compilation - JTFRAME
 
 Refer to [JTFRAME](modules/jtframe/README.md) for compilation instructions and general information about how the cores are organized.
