@@ -82,7 +82,10 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          submodules: 'recursive'
+          submodules: false
+
+      - name: Checkout Circus Charlie dependencies
+        run: git submodule update --init --recursive --depth=1 modules/jt12
 
       - id: compile
         run: |
